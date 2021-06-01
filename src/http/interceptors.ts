@@ -2,11 +2,12 @@
  * @Author: tangzhicheng
  * @Date: 2021-06-01 11:01:21
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-01 14:13:45
+ * @LastEditTime: 2021-06-01 17:00:11
  * @Description: file content
  */
 
-import { RequesterOptions, Task } from './types'
+import { Task } from './types'
+import { compose } from '@/utils/common'
 
 export default class Interceptor {
   private taskQueue: Task[] = [];
@@ -15,12 +16,12 @@ export default class Interceptor {
     this.taskQueue.push(task)
   }
 
-  public run(option: RequesterOptions): RequesterOptions {
+  public run<T = any>(material: T): T {
     try {
-      return this.taskQueue.reduce((result, curTask) => curTask(result), option)
+      return compose<Task, T>(...this.taskQueue)(material)
     } catch (error) {
       console.error(error)
-      return option
+      return material
     }
   }
 }

@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-05-31 15:15:30
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-01 11:58:54
+ * @LastEditTime: 2021-06-01 17:07:06
  * @Description: file content
  */
 
@@ -27,4 +27,10 @@ export type GeneralResult = UniApp.GeneralCallbackResult
 
 export interface Task {
   (option: RequesterOptions): RequesterOptions
+}
+
+export interface ResponseData<T = any> {
+  code: number
+  data: T
+  msg: null | string
 }

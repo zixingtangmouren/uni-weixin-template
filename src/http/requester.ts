@@ -2,13 +2,13 @@
  * @Author: tangzhicheng
  * @Date: 2021-05-31 15:10:13
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-01 14:15:26
+ * @LastEditTime: 2021-06-01 17:18:16
  * @Description: Requester
  */
 
 import Vue from 'vue'
 import {
-  RequesterOptions, RequesterState, SuccessResult, GeneralResult, ConfigOptions
+  RequesterOptions, RequesterState, SuccessResult, GeneralResult, ConfigOptions, ResponseData
 } from './types'
 
 import Interceptor from './interceptors'
@@ -75,17 +75,24 @@ export default class Requester {
     })
   }
 
+  /**
+   * TODO:
+   * 改进1：目前拦截器只处理了业务成功的情况
+   * 改进2：整个request的请求结构需要调整
+   * @param options
+   * @returns
+   */
   public async request(options: RequesterOptions) {
-    const mergeOptions = this.requestInterceptor.run(Object.assign(this.options, options))
+    const mergeOptions = this.requestInterceptor.run<RequesterOptions>(Object.assign(this.options, options))
     mergeOptions.url = mergeOptions.baseURL + mergeOptions.url
     this.increaseRequest()
 
     try {
       const result = await this.createRequestPromise(mergeOptions) as SuccessResult
-      const data = (result.data || {}) as AnyObject
+      const data = (result.data || {}) as ResponseData
 
       if (data.code === 0) {
-        return mergeOptions.defData ? data.data : data
+        return this.responseInterceptor.run<SuccessResult | ResponseData | any>(result)
       }
 
       if (mergeOptions.defEx) {
