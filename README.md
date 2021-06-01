@@ -1,19 +1,27 @@
+<!--
+ * @Author: tangzhicheng
+ * @Date: 2021-05-31 13:56:29
+ * @LastEditors: tangzhicheng
+ * @LastEditTime: 2021-06-01 17:30:01
+ * @Description: file content
+-->
+
 # weixin-app
 
-## Project setup
-```
-npm install
-```
+开发计划表
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 请求封装
 
-### Compiles and minifies for production
-```
-npm run build
-```
+1. requester 请求对象实现
+2. interceptors 拦截器实现
+3. API 统一管理
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## mock server 实现
+
+1. 测试接口数据
+2. 开发阶段错误日志监控
+
+## 常用工具方法
+
+1. compose
+2. withAuthorize uni 权限包装函数
