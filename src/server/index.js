@@ -17,7 +17,7 @@ const server = (PORT) => {
     res.status(200).send({
       code: 0,
       data: 'success',
-      msg: null,
+      msg: null
     })
   })
 
@@ -25,7 +25,7 @@ const server = (PORT) => {
     res.status(200).send({
       code: -1,
       data: null,
-      msg: '业务报错',
+      msg: '业务报错'
     })
   })
 
@@ -33,7 +33,7 @@ const server = (PORT) => {
     res.status(500).send({
       code: -1,
       data: null,
-      msg: 'GG',
+      msg: 'GG'
     })
   })
 

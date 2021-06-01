@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-05-31 13:56:09
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-05-31 14:27:23
+ * @LastEditTime: 2021-06-01 15:42:36
  * @Description: file content
 -->
 <script lang="ts">
@@ -18,7 +18,7 @@ export default Vue.extend({
   },
   onHide() {
     console.log('App Hide')
-  },
+  }
 })
 </script>
 
