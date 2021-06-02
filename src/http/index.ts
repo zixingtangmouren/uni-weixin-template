@@ -2,22 +2,28 @@
  * @Author: tangzhicheng
  * @Date: 2021-06-01 10:21:04
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-01 17:14:51
+ * @LastEditTime: 2021-06-02 11:45:12
  * @Description: file content
  */
 
-import Requester from './requester'
+import Requester from './requester/requester'
 
 const instance = new Requester({
-  baseURL: '/api',
-  timeout: 30000
+  config: {
+    baseURL: '/'
+  },
+  options: {
+    timeout: 30000
+  }
 })
 
-instance.requestInterceptor.use((config) => {
-  config.header.token = '123456'
-  return config
+// 配置请求拦截
+instance.requestInterceptor.use((option) => {
+  // option.options..token = '123456'
+  return option
 })
 
+// 配置响应拦截
 instance.responseInterceptor.use((result) => {
   return result
 })

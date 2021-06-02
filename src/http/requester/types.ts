@@ -2,12 +2,12 @@
  * @Author: tangzhicheng
  * @Date: 2021-05-31 15:15:30
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-01 17:07:06
- * @Description: file content
+ * @LastEditTime: 2021-06-02 11:44:04
+ * @Description: 请求封装类型
  */
 
 export interface ConfigOptions {
-  baseURL: string
+  baseURL?: string
   load?: boolean
   defEx?: boolean
   defData?: boolean
@@ -15,7 +15,17 @@ export interface ConfigOptions {
   timeout?: number
 }
 
-export type RequesterOptions = ConfigOptions & UniApp.RequestOptions
+export interface RequesterOptions {
+  config: ConfigOptions
+  options: UniApp.RequestOptions
+}
+
+export type PartialUniRequestOptions = Partial<UniApp.RequestOptions>
+
+export interface InitRequesterOptions {
+  config: ConfigOptions
+  options: PartialUniRequestOptions
+}
 
 export interface RequesterState {
   isLoading: boolean
@@ -25,9 +35,11 @@ export interface RequesterState {
 export type SuccessResult = UniApp.RequestSuccessCallbackResult
 export type GeneralResult = UniApp.GeneralCallbackResult
 
-export interface Task {
-  (option: RequesterOptions): RequesterOptions
+export interface Task<T = any> {
+  (option: T): T
 }
+
+export type ErrorTask = Task<Error | GeneralResult>
 
 export interface ResponseData<T = any> {
   code: number
