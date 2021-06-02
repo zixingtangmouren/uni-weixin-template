@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-06-01 11:01:21
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-02 17:05:32
+ * @LastEditTime: 2021-06-02 17:09:31
  * @Description: 拦截器对象
  */
 
@@ -23,11 +23,11 @@ export default class Interceptor<T = any, M = T> {
     errorTask && (this.errorTaskQueue.push(errorTask))
   }
 
-  public runWithSuccessTask<V = any>(material: V): V {
+  public runWithSuccessTask<V = any>(material: V) {
     return this.run<Task<T, M>, V>(this.successTaskQueue)(material)
   }
 
-  public runWithErrorTask<V = any>(material: V): V {
+  public runWithErrorTask<V = any>(material: V) {
     return this.run<Task<T, M>, V>(this.errorTaskQueue)(material)
   }
 
