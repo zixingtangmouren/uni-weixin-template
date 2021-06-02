@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-05-31 15:10:13
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-02 11:44:27
+ * @LastEditTime: 2021-06-02 16:38:16
  * @Description: Requester
  */
 
@@ -35,12 +35,17 @@ export default class Requester {
     dataType: 'json'
   }
 
-  public requestInterceptor = new Interceptor<RequesterOptions>()
-  public responseInterceptor = new Interceptor()
+  public requestInterceptor: Interceptor<RequesterOptions>
+  public responseInterceptor: Interceptor<{
+    config: ConfigOptions,
+    result: any
+  }>
 
-  constructor({ config, options }: InitRequesterOptions) {
+  constructor({ config, options, codes }: InitRequesterOptions) {
     this.config = Object.assign(this.config, config)
     this.options = Object.assign(this.options, options)
+    this.requestInterceptor = new Interceptor(codes)
+    this.responseInterceptor = new Interceptor(codes)
   }
 
   private increaseRequest() {
@@ -89,7 +94,7 @@ export default class Requester {
     })
   }
 
-  public async request({ config, options }: RequesterOptions) {
+  public async request(options: UniApp.RequestOptions, config?: ConfigOptions) {
     const mergeMaterial = this.requestInterceptor.runWithSuccessTask({
       config: Object.assign(this.config, config),
       options: Object.assign(this.options, options)
@@ -104,27 +109,14 @@ export default class Requester {
         config: mergeMaterial.config,
         result
       })
-      // if (data.code === 0) {
-      //   return this.responseInterceptor.run<SuccessResult | ResponseData | any>(result)
-      // }
-
-      // if (mergeOptions.defEx) {
-      //   uni.showToast({ mask: true, title: data.msg || '后台报错！' })
-      // } else {
-      //   return data
-      // }
     } catch (error) {
-      const err = this.responseInterceptor.runWithErrorTask(error)
-      // 请求失败的处理
-      // console.error(error)
-      // if (mergeOptions.defFail) {
-      //   uni.showToast({ mask: true, title: '请求异常！' })
-      // } else {
-      //   return new Error(error.errMsg || error.message)
-      // }
+      const result = this.responseInterceptor.runWithErrorTask({
+        config: mergeMaterial.config,
+        error
+      })
 
+      throw Error(result.error.errMsg || result.error.message || '请求失败！')
       // 应该合理的将异常抛出
-      throw Error(err.errMsg || err.message || '请求失败！')
     } finally {
       this.reduceRequest()
     }

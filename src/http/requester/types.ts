@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-05-31 15:15:30
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-02 11:44:04
+ * @LastEditTime: 2021-06-02 15:57:54
  * @Description: 请求封装类型
  */
 
@@ -22,9 +22,13 @@ export interface RequesterOptions {
 
 export type PartialUniRequestOptions = Partial<UniApp.RequestOptions>
 
+export interface Codes {
+  [key: string]: number
+}
 export interface InitRequesterOptions {
   config: ConfigOptions
   options: PartialUniRequestOptions
+  codes: Codes
 }
 
 export interface RequesterState {
@@ -35,8 +39,8 @@ export interface RequesterState {
 export type SuccessResult = UniApp.RequestSuccessCallbackResult
 export type GeneralResult = UniApp.GeneralCallbackResult
 
-export interface Task<T = any> {
-  (option: T): T
+export interface Task<T = any, V = T> {
+  (option: T): V
 }
 
 export type ErrorTask = Task<Error | GeneralResult>

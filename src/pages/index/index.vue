@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-05-31 13:56:09
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-05-31 14:26:16
+ * @LastEditTime: 2021-06-02 15:00:01
  * @Description: file content
 -->
 <template>
@@ -10,7 +10,8 @@
     <image class="logo"
            src="../../static/logo.png"></image>
     <view>
-      <text class="title">{{title}}</text>
+      <text class="title"
+            @click="go">{{title}}</text>
     </view>
   </view>
 </template>
@@ -21,15 +22,20 @@ import Vue from 'vue'
 export default Vue.extend({
   data() {
     return {
-      title: 'Hello',
+      title: 'Hello'
     }
   },
   onLoad() {
 
   },
   methods: {
-
-  },
+    go() {
+      console.log(12312)
+      uni.navigateTo({
+        url: '/pages/home/index'
+      })
+    }
+  }
 })
 </script>
 
