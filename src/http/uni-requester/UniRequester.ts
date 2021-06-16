@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-06-16 10:58:39
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-16 16:12:15
+ * @LastEditTime: 2021-06-16 17:12:38
  * @Description: file content
  */
 
@@ -65,7 +65,7 @@ class UniRequester {
 
     try {
       this.Interceptor.invoke.run(allOptions)
-      const result = await this.createRequest(mergeOptions)
+      const result = await this.createRequestTask(mergeOptions)
       // 执行请求成功的拦截器
       return this.Interceptor.success.run({
         result,
@@ -85,6 +85,7 @@ class UniRequester {
 
   public showLoading() {
     if (!this.status.loading) {
+      this.status.loading = true
       uni.showLoading({ title: '加载中...' })
     }
     this.status.requestCount++
@@ -94,13 +95,14 @@ class UniRequester {
     this.status.requestCount--
 
     // console.log(this.status.requestCount)
-    if (this.status.requestCount === 0) {
+    if (this.status.requestCount === 0 && this.status.loading) {
+      this.status.loading = false
       uni.hideLoading()
     }
   }
 
   // 创建请求的promise和uni.request产生的requestTask
-  private createRequest(options:UniApp.RequestOptions): Promise<UniApp.RequestSuccessCallbackResult> {
+  private createRequestTask(options:UniApp.RequestOptions): Promise<UniApp.RequestSuccessCallbackResult> {
     return new Promise((resolve, reject) => {
       const success = (res: UniApp.RequestSuccessCallbackResult) => {
         console.log('success')
