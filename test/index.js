@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-06-02 09:17:32
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-02 09:29:20
+ * @LastEditTime: 2021-06-16 10:56:10
  * @Description: file content
  */
 
@@ -15,8 +15,6 @@ const cp = () => new Promise((resolve, reject) => {
     // })
     reject(new Error('this is error'))
   })
-}).catch((err) => {
-  throw new Error(err.message)
 })
 
 async function test() {
@@ -25,8 +23,12 @@ async function test() {
     console.log(result)
   } catch (error) {
     console.log('good')
+    throw new Error('err')
   }
   console.log('123213')
 }
 
-test()
+(async() => {
+  const res = await test()
+  console.log(res)
+})()
