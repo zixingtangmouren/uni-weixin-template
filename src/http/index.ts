@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-06-16 10:57:47
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-16 15:49:31
+ * @LastEditTime: 2021-06-16 16:27:49
  * @Description: file content
  */
 
@@ -33,6 +33,23 @@ requester.Interceptor.invoke.use(({ options, config }) => {
 requester.Interceptor.invoke.use(({ options, config }) => {
   options.url = config.baseUrl + options.url
   return { options, config }
+})
+
+requester.Interceptor.success.use(({ result, config }) => {
+  if (config.defFail && result.statusCode !== 200) {
+    uni.showToast({ title: '请求失败！', icon: 'none' })
+  }
+
+  return { result, config }
+})
+
+requester.Interceptor.success.use(({ result, config }) => {
+  let processed = result
+  if (config.defData && result.statusCode === 200) {
+    processed = (processed.data as AnyObject).data
+  }
+
+  return processed
 })
 
 requester.Interceptor.fail.use(({ error, config }) => {

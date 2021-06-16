@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-06-16 10:58:39
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-16 15:48:22
+ * @LastEditTime: 2021-06-16 16:12:15
  * @Description: file content
  */
 
@@ -23,7 +23,10 @@ class UniRequester {
       options: UniApp.RequestOptions,
       config:Config
     }>(),
-    success: new Interceptor<UniApp.RequestSuccessCallbackResult, any>(),
+    success: new Interceptor<{
+      result: UniApp.RequestSuccessCallbackResult,
+      config:Config
+    }, any>(),
     fail: new Interceptor<{
       error: UniApp.GeneralCallbackResult,
       config:Config
@@ -64,7 +67,10 @@ class UniRequester {
       this.Interceptor.invoke.run(allOptions)
       const result = await this.createRequest(mergeOptions)
       // 执行请求成功的拦截器
-      return this.Interceptor.success.run(result)
+      return this.Interceptor.success.run({
+        result,
+        config: mergeConfig
+      })
     } catch (error) {
       // 执行请求失败的拦截器
       this.Interceptor.fail.run({
@@ -95,13 +101,14 @@ class UniRequester {
 
   // 创建请求的promise和uni.request产生的requestTask
   private createRequest(options:UniApp.RequestOptions): Promise<UniApp.RequestSuccessCallbackResult> {
-    console.log(1323)
     return new Promise((resolve, reject) => {
       const success = (res: UniApp.RequestSuccessCallbackResult) => {
+        console.log('success')
         resolve(res)
       }
 
       const fail = (res: UniApp.GeneralCallbackResult) => {
+        console.log('fail')
         reject(res)
       }
 

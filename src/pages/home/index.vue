@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-05-31 15:04:52
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-16 15:41:09
+ * @LastEditTime: 2021-06-16 16:24:17
  * @Description: file content
 -->
 
@@ -24,14 +24,27 @@ export default class Home extends Vue {
   }
 
   private async onClick() {
-    const result = await rqer.request({
+    // rqer.request({
+    //   url: '/success',
+    //   method: 'GET'
+    // })
+
+    // rqer.request({
+    //   url: '/success',
+    //   method: 'GET'
+    // })
+
+    // const res = await rqer.request({
+    //   url: '/error',
+    //   method: 'GET'
+    // })
+
+    const res = await rqer.request({
       url: '/success',
       method: 'GET'
-    }, {
-      defFail: true
     })
 
-    console.log('---------', result)
+    console.log(res)
   }
 }
 </script>
