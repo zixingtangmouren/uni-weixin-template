@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-06-16 10:58:39
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-16 15:16:52
+ * @LastEditTime: 2021-06-16 15:48:22
  * @Description: file content
  */
 
@@ -24,7 +24,10 @@ class UniRequester {
       config:Config
     }>(),
     success: new Interceptor<UniApp.RequestSuccessCallbackResult, any>(),
-    fail: new Interceptor<UniApp.GeneralCallbackResult>(),
+    fail: new Interceptor<{
+      error: UniApp.GeneralCallbackResult,
+      config:Config
+    }>(),
     complete: new Interceptor<{
       options: UniApp.RequestOptions,
       config:Config
@@ -35,7 +38,8 @@ class UniRequester {
   private config: Config
   // uni.request默认的配置
   private requesterOptions: RequesterOptions = {
-    method: 'GET'
+    method: 'GET',
+    header: {}
   }
 
   constructor(config: Config, options?:RequesterOptions) {
@@ -55,15 +59,18 @@ class UniRequester {
     }
 
     // 执行发起请求前的拦截器
-    this.Interceptor.invoke.run(allOptions)
 
     try {
+      this.Interceptor.invoke.run(allOptions)
       const result = await this.createRequest(mergeOptions)
       // 执行请求成功的拦截器
       return this.Interceptor.success.run(result)
     } catch (error) {
       // 执行请求失败的拦截器
-      this.Interceptor.fail.run(error)
+      this.Interceptor.fail.run({
+        error,
+        config: mergeConfig
+      })
       throw new Error(error.errMsg || error.message || '请求报错')
     } finally {
       this.Interceptor.complete.run(allOptions)

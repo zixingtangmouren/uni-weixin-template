@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-05-31 15:04:52
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-16 15:01:15
+ * @LastEditTime: 2021-06-16 15:41:09
  * @Description: file content
 -->
 
@@ -27,9 +27,11 @@ export default class Home extends Vue {
     const result = await rqer.request({
       url: '/success',
       method: 'GET'
+    }, {
+      defFail: true
     })
 
-    console.log(result)
+    console.log('---------', result)
   }
 }
 </script>
