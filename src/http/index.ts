@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-06-16 10:57:47
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-16 17:00:22
+ * @LastEditTime: 2021-06-17 08:52:39
  * @Description: file content
  */
 
@@ -15,6 +15,9 @@ const requester = new UniRequester(
     defData: false,
     defEx: true,
     defFail: true
+  },
+  {
+    timeout: 30000
   }
 )
 

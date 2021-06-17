@@ -2,7 +2,7 @@
  * @Author: tangzhicheng
  * @Date: 2021-06-16 10:58:39
  * @LastEditors: tangzhicheng
- * @LastEditTime: 2021-06-16 17:12:38
+ * @LastEditTime: 2021-06-17 08:53:28
  * @Description: file content
  */
 
@@ -48,7 +48,7 @@ class UniRequester {
   constructor(config: Config, options?:RequesterOptions) {
     this.config = config
     if (options) {
-      this.requesterOptions = options
+      this.requesterOptions = Object.assign(options, this.requesterOptions)
     }
   }
 
